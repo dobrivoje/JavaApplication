@@ -4,14 +4,12 @@
  */
 package javaapplication;
 
-import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
-import au.com.bytecode.opencsv.bean.CsvToBean;
-import java.io.FileReader;
+import com.dobrivoje.CSV.CSVUtils;
+import com.dobrivoje.CSV.IColumnMapping;
+import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Date;
-import java.util.List;
 
 /**
  *
@@ -1245,15 +1243,15 @@ public class JavaApplication1 {
          }
          */
         NumberFormat nff = new DecimalFormat();
-        String b1 = "1,002";
-        String b2 = "1,003";
+        String b1 = "10.2";
+        String b2 = "15.3";
 
         Number bb1 = nff.parse(b1);
         Number bb2 = nff.parse(b2);
 
         System.err.println("Broj: " + (bb1.floatValue() + bb2.floatValue()));
 
-        for (String polja : FakturisaneUslugeBean.getColumnNames()) {
+        for (String polja : new FakturisaneUslugeBean().getColumnNames()) {
             System.out.println(polja);
         }
 
@@ -1261,38 +1259,59 @@ public class JavaApplication1 {
         System.out.println("Test OpenCSV");
         System.out.println();
 
-        CsvToBean csv = new CsvToBean();
-        CSVReader reader = new CSVReader(new FileReader("src/javaapplication/FakturisaneUsluge.csv"), ';', '\'', 1);
+        /*
+         CsvToBean csv = new CsvToBean();
+         CSVReader reader = new CSVReader(new FileReader("src/javaapplication/FakturisaneUsluge2.csv"), ';', '\'', 1);
 
-        ColumnPositionMappingStrategy strat = new ColumnPositionMappingStrategy();
-        strat.setType(FakturisaneUslugeBean.class);
+         ColumnPositionMappingStrategy strat = new ColumnPositionMappingStrategy();
+         strat.setType(FakturisaneUslugeBean.class);
 
-        // Nazivi kolona su iz definisanog bean-a !!! (a ne iz csv-a)
-        strat.setColumnMapping(FakturisaneUslugeBean.getColumnNames());
-        List<FakturisaneUslugeBean> list = csv.parse(strat, reader);
+         // Nazivi kolona su iz definisanog bean-a !!! (a ne iz csv-a)
+         strat.setColumnMapping(FakturisaneUslugeBean.getColumnNames());
+         List<FakturisaneUslugeBean> list = csv.parse(strat, reader);
+         */
+        NumberFormat nf = new DecimalFormat("#,#");
 
-        NumberFormat nf = new DecimalFormat();
-        
         float s = 0;
         int nije = 0;
 
-        for (FakturisaneUslugeBean fUsluga : list) {
-            try {
-                s += nf.parse(fUsluga.getSati()).floatValue();;
-            } catch (ClassCastException e1) {
-                nije++;
+        CSVUtils csvu;
+        FakturisaneUslugeBean fub;
+
+        try {
+            csvu = CSVUtils.getDafault("src/javaapplication/FakturisaneUsluge2.csv");
+            csvu.setUpBean(new FakturisaneUslugeBean());
+
+            for (IColumnMapping fUsluga : csvu.getList()) {
+                FakturisaneUslugeBean fa = new FakturisaneUslugeBean();
+                fa = (FakturisaneUslugeBean) fUsluga;
+
+                try {
+                    System.out.println(fa.toString() + ", " + (s += nf.parse(fa.getSati()).floatValue()));
+                } catch (ClassCastException e1) {
+                    nije++;
+                } finally {
+                    fa = null;
+                }
             }
 
-            //System.out.println(sat);
+        } catch (FileNotFoundException e) {
+            System.err.println("Ne postoji fajl !");
         }
 
         System.out.println("__________________________");
         System.out.println(s);
-        System.out.println("__________________________");
-        System.out.println("Uvezao je : " + (list.size() - nije));
-        System.err.println("__________________________");
-        System.err.println("Nije uvezao: " + nije);
-        System.out.println("__________________________");
-        System.out.println("Ukupno :" + list.size());
+        System.out.println("Greške");
+
+        /*
+         System.out.println("__________________________");
+         System.out.println(s);
+         System.out.println("__________________________");
+         System.out.println("Uvezao je : " + (list.size() - nije));
+         System.err.println("__________________________");
+         System.err.println("Nije uvezao: " + nije);
+         System.out.println("__________________________");
+         System.out.println("Ukupno :" + list.size());
+         */
     }
 }

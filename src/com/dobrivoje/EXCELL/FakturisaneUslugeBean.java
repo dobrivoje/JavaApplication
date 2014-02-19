@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javaapplication;
+package com.dobrivoje.EXCELL;
 
 import com.dobrivoje.CSV.IColumnMapping;
 
@@ -14,7 +14,7 @@ import com.dobrivoje.CSV.IColumnMapping;
 public class FakturisaneUslugeBean implements IColumnMapping {
 
     private String Radnik;
-    private String Sati;
+    private double Sati;
     private String RadniNalog;
     private String DatumRacuna;
     private String ProfitniCentar;
@@ -27,7 +27,7 @@ public class FakturisaneUslugeBean implements IColumnMapping {
     public FakturisaneUslugeBean() {
     }
 
-    public FakturisaneUslugeBean(String Radnik, String Sati, String RadniNalog, String DatumRacuna, String ProfitniCentar) {
+    public FakturisaneUslugeBean(String Radnik, double Sati, String RadniNalog, String DatumRacuna, String ProfitniCentar) {
         this.Radnik = Radnik;
         this.Sati = Sati;
         this.RadniNalog = RadniNalog;
@@ -43,11 +43,11 @@ public class FakturisaneUslugeBean implements IColumnMapping {
         this.Radnik = Radnik;
     }
 
-    public String getSati() {
+    public double getSati() {
         return Sati;
     }
 
-    public void setSati(String Sati) {
+    public void setSati(double Sati) {
         this.Sati = Sati;
     }
 
