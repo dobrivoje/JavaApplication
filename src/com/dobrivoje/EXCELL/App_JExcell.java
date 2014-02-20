@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import jxl.Cell;
 import jxl.DateCell;
 import jxl.NumberCell;
 import jxl.Sheet;
@@ -23,9 +22,8 @@ import jxl.read.biff.BiffException;
 public class App_JExcell {
 
     public static void main(String[] args) throws IOException, BiffException {
-        Workbook workbook = Workbook.getWorkbook(new File("src/com/dobrivoje/EXCELL/FU.xls"));
-        Sheet sheet = workbook.getSheet("Radnici");
-        Cell c;
+        Workbook workbook = Workbook.getWorkbook(new File("src/com/dobrivoje/EXCELL/FU1.xls"));
+        Sheet sheet = workbook.getSheet(0);
 
         FakturisaneUslugeBean fu;
         List<FakturisaneUslugeBean> l1 = new ArrayList<>();
@@ -34,16 +32,17 @@ public class App_JExcell {
             fu = new FakturisaneUslugeBean();
 
             fu.setRadnik(sheet.getCell(0, vrsta).getContents());
-            fu.setSati(((NumberCell)sheet.getCell(1, vrsta)).getValue());
+            fu.setSati(((NumberCell) sheet.getCell(1, vrsta)).getValue());
             fu.setRadniNalog(sheet.getCell(2, vrsta).getContents());
-            fu.setDatumRacuna(((DateCell)sheet.getCell(3, vrsta)).getDate());
+            fu.setDatumRacuna(((DateCell) sheet.getCell(3, vrsta)).getDate());
             fu.setProfitniCentar(sheet.getCell(4, vrsta).getContents());
 
             l1.add(fu);
         }
 
+        int rb = 0;
         for (FakturisaneUslugeBean fb : l1) {
-            System.out.println(fb.toString());
+            System.out.println((++rb) + ".  " + fb.toString());
         }
     }
 }

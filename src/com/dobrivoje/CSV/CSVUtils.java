@@ -36,7 +36,10 @@ public class CSVUtils {
         init(CSV_LokacijaFajla, CSV_Separator, CSV_PreskakanjeLinija);
     }
 
-    private static void init(String CSV_LokacijaFajla, char CSV_Separator, int CSV_PreskakanjeLinija) throws FileNotFoundException {
+    private static void init(String CSV_LokacijaFajla,
+            char CSV_Separator,
+            int CSV_PreskakanjeLinija) throws FileNotFoundException {
+
         CSVUtils.CSV_LokacijaFajla = CSV_LokacijaFajla;
         CSVUtils.CSV_Separator = CSV_Separator;
         CSVUtils.CSV_PreskakanjeLinija = CSV_PreskakanjeLinija;
