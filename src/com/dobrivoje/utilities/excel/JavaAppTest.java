@@ -21,7 +21,7 @@ public class JavaAppTest {
         File f = null;
 
         try {
-            f = new File("C:\\Documents and Settings\\dobri.AKK_DOMAIN\\desktop\\FU.xls");
+            f = new File("src/com/dobrivoje/EXCELL/FU1.xls");
         } catch (Exception ex) {
             System.err.println("Exception: " + ex.getMessage() + ", " + ex.toString());
         }

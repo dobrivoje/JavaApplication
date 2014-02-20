@@ -77,9 +77,9 @@ public class ExcelUtils {
         FakturisaneUslugeBean fuTmp;
 
         for (int vrsta = ExcelUtils.PreskociBrLinija; vrsta < ExcelUtils.Sheet.getRows(); vrsta++) {
-        fuTmp = new FakturisaneUslugeBean();
+            fuTmp = new FakturisaneUslugeBean();
 
-        //for (int kolona = 0; kolona < fuTmp.getColumns().size(); kolona++) {
+            //for (int kolona = 0; kolona < fuTmp.getColumns().size(); kolona++) {
             fuTmp.setRadnik(ExcelUtils.Sheet.getCell(0, vrsta).getContents());
             fuTmp.setSati(((NumberCell) ExcelUtils.Sheet.getCell(1, vrsta)).getValue());
             fuTmp.setRadniNalog(ExcelUtils.Sheet.getCell(2, vrsta).getContents());
@@ -99,7 +99,7 @@ public class ExcelUtils {
         String tmp = null;
 
         for (IExcelable fb : getBeanList()) {
-            tmp = (++rb) + ".  " + ((FakturisaneUslugeBean) fb).toString();
+            tmp += (++rb) + ".  " + ((FakturisaneUslugeBean) fb).toString() + '\n';
         }
 
         return tmp;
