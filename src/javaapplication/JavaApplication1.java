@@ -5,7 +5,8 @@
 package javaapplication;
 
 import com.dobrivoje.CSV.CSVUtils;
-import com.dobrivoje.CSV.IColumnMapping;
+import com.dobrivoje.CSV.FakturisaneUslugeBean;
+import com.dobrivoje.CSV.ICVSAble;
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -1243,15 +1244,15 @@ public class JavaApplication1 {
          }
          */
         NumberFormat nff = new DecimalFormat();
-        String b1 = "10.2";
-        String b2 = "15.3";
+        String b1 = "10,22";
+        String b2 = "15,31";
 
         Number bb1 = nff.parse(b1);
         Number bb2 = nff.parse(b2);
 
         System.err.println("Broj: " + (bb1.floatValue() + bb2.floatValue()));
 
-        for (String polja : new FakturisaneUslugeBean().getColumnNames()) {
+        for (String polja : new FakturisaneUslugeBean().getColumns()) {
             System.out.println(polja);
         }
 
@@ -1267,7 +1268,7 @@ public class JavaApplication1 {
          strat.setType(FakturisaneUslugeBean.class);
 
          // Nazivi kolona su iz definisanog bean-a !!! (a ne iz csv-a)
-         strat.setColumnMapping(FakturisaneUslugeBean.getColumnNames());
+         strat.setColumnMapping(FakturisaneUslugeBean.getColumns());
          List<FakturisaneUslugeBean> list = csv.parse(strat, reader);
          */
         NumberFormat nf = new DecimalFormat("#,#");
@@ -1282,16 +1283,15 @@ public class JavaApplication1 {
             csvu = CSVUtils.getDafault("src/javaapplication/FakturisaneUsluge2.csv");
             csvu.setUpBean(new FakturisaneUslugeBean());
 
-            for (IColumnMapping fUsluga : csvu.getList()) {
-                FakturisaneUslugeBean fa = new FakturisaneUslugeBean();
-                fa = (FakturisaneUslugeBean) fUsluga;
+            for (ICVSAble fUsluga : csvu.getList()) {
+                fub = (FakturisaneUslugeBean) fUsluga;
 
                 try {
-                    System.out.println(fa.toString() + ", " + (s += nf.parse(fa.getSati()).floatValue()));
+                    System.out.println(fub.toString() + ", " + (s += nf.parse(fub.getSati()).floatValue()));
                 } catch (ClassCastException e1) {
                     nije++;
                 } finally {
-                    fa = null;
+                    fub = null;
                 }
             }
 

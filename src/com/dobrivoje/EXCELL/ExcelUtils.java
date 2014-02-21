@@ -2,9 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.dobrivoje.utilities.excel;
+package com.dobrivoje.EXCELL;
 
 import Exceptions.ExcelSheetException;
+import com.dobrivoje.EXCELL.FakturisaneUslugeBean;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;

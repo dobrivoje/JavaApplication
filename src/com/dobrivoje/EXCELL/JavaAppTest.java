@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.dobrivoje.utilities.excel;
+package com.dobrivoje.EXCELL;
 
 import Exceptions.ExcelSheetException;
 import java.io.File;
@@ -18,15 +18,9 @@ public class JavaAppTest {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        File f = null;
-
         try {
-            f = new File("src/com/dobrivoje/EXCELL/FU1.xls");
-        } catch (Exception ex) {
-            System.err.println("Exception: " + ex.getMessage() + ", " + ex.toString());
-        }
+            File f = new File("src/com/dobrivoje/EXCELL/FU1.xls");
 
-        try {
             ExcelUtils eu = ExcelUtils.getDafault(f);
             System.out.println(eu.toString());
 

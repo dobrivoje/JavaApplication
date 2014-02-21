@@ -9,6 +9,7 @@ import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 import au.com.bytecode.opencsv.bean.CsvToBean;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ public class CSVUtils {
     private static final CsvToBean CVSToBean = new CsvToBean();
     private static final ColumnPositionMappingStrategy cpms = new ColumnPositionMappingStrategy();
     //
-    private static List<IColumnMapping> list;
+    private static List<ICVSAble> list = new ArrayList<>();
 
     protected CSVUtils(String CSV_LokacijaFajla, char CSV_Separator, int CSV_PreskakanjeLinija) throws FileNotFoundException {
 
@@ -77,14 +78,14 @@ public class CSVUtils {
     }
 //</editor-fold>
 
-    public void setUpBean(IColumnMapping bean) {
+    public void setUpBean(ICVSAble bean) {
         cpms.setType(bean.getClass());
-        cpms.setColumnMapping(bean.getColumnNames());
+        cpms.setColumnMapping(bean.getColumns().toArray(new String[bean.getColumns().size()]));
 
         list = CVSToBean.parse(cpms, CVSReader);
     }
 
-    public List<IColumnMapping> getList() {
+    public List<ICVSAble> getList() {
         return list;
     }
 }

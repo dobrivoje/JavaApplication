@@ -5,11 +5,13 @@
  */
 package com.dobrivoje.CSV;
 
+import java.util.List;
+
 /**
  *
  * @author dobri
  */
-public interface IColumnMapping {
+public interface ICVSAble {
 
-    public String[] getColumnNames();
+    public List<String> getColumns();
 }

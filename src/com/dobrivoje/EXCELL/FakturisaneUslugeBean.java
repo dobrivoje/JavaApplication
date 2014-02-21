@@ -5,14 +5,16 @@
  */
 package com.dobrivoje.EXCELL;
 
-import com.dobrivoje.CSV.IColumnMapping;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author dobri
  */
-public class FakturisaneUslugeBean implements IColumnMapping {
+public class FakturisaneUslugeBean implements IExcelable {
 
     private String Radnik;
     private double Sati;
@@ -20,9 +22,15 @@ public class FakturisaneUslugeBean implements IColumnMapping {
     private Date DatumRacuna;
     private String ProfitniCentar;
 
+    private static final String[] kolone = new String[]{"Radnik", "Sati", "RadniNalog", "DatumRacuna", "ProfitniCentar"};
+
     @Override
-    public String[] getColumnNames() {
-        return new String[]{"Radnik", "Sati", "RadniNalog", "DatumRacuna", "ProfitniCentar"};
+    public List<String> getColumns() {
+        return new ArrayList<>(Arrays.asList(kolone));
+    }
+
+    public String[] getStrColumns() {
+        return kolone;
     }
 
     public FakturisaneUslugeBean() {
