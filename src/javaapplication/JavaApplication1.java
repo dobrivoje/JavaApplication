@@ -1281,18 +1281,18 @@ public class JavaApplication1 {
         int nije = 0;
 
         CSVUtils csvu;
-        List list = null;
+        List<ICVSAble> list = null;
         FakturisaneUslugeBean fub;
         File file = new File("src/javaapplication/FakturisaneUsluge2.csv");
 
         try {
             csvu = CSVUtils.getDafault(file, ';', 0);
+            csvu.setUpBean(new FakturisaneUslugeBean());
+            
             list = csvu.getList();
 
-            csvu.setUpBean(new FakturisaneUslugeBean());
-
-            for (ICVSAble fUsluga : csvu.getList()) {
-                fub = (FakturisaneUslugeBean) fUsluga;
+            for (ICVSAble fu : list) {
+                fub = (FakturisaneUslugeBean) fu;
 
                 try {
                     System.out.println(fub.toString() + ", " + (s += nf.parse(fub.getSati()).floatValue()));
@@ -1306,19 +1306,18 @@ public class JavaApplication1 {
         }
 
         TimeUnit.SECONDS.sleep(1);
-        
-        System.out.println("__________________________");
-        System.out.println(s);
-        System.out.println("Greške");
 
+        System.out.println(s);
+        System.out.println("Izveštaj");
+        System.out.println("__________________________");
+        System.out.println("Ukupno CSV zapisa: " + list.size());
+        
         System.out.println("__________________________");
         System.out.println(s);
         System.out.println("__________________________");
         System.out.println("Uvezao je : " + (list.size() - nije));
         System.err.println("__________________________");
         System.err.println("Nije uvezao: " + nije);
-        System.out.println("__________________________");
-        System.out.println("Ukupno :" + list.size());
 
     }
 }
