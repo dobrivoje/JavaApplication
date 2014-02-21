@@ -1282,22 +1282,25 @@ public class JavaApplication1 {
 
         CSVUtils csvu;
         List<ICVSAble> list = null;
-        FakturisaneUslugeBean fub;
-        File file = new File("src/javaapplication/FakturisaneUsluge2.csv");
+        FakturisaneUslugeBean fub, fub_n = null;
+        File file = new File("src/javaapplication/FakturisaneUsluge.csv");
+
+        int br = 0;
 
         try {
-            csvu = CSVUtils.getDafault(file, ';', 0);
+            csvu = CSVUtils.getDafault(file, ';', 1);
             csvu.setUpBean(new FakturisaneUslugeBean());
-            
+
             list = csvu.getList();
 
             for (ICVSAble fu : list) {
                 fub = (FakturisaneUslugeBean) fu;
 
                 try {
-                    System.out.println(fub.toString() + ", " + (s += nf.parse(fub.getSati()).floatValue()));
+                    System.out.println((++br) + ".  " + fub.toString() + ", " + (s += nf.parse(fub.getSati()).floatValue()));
                 } catch (ParseException nfe) {
                     nije++;
+                    fub_n = fub;
                 }
             }
 
@@ -1311,13 +1314,13 @@ public class JavaApplication1 {
         System.out.println("Izveštaj");
         System.out.println("__________________________");
         System.out.println("Ukupno CSV zapisa: " + list.size());
-        
+
         System.out.println("__________________________");
         System.out.println(s);
         System.out.println("__________________________");
         System.out.println("Uvezao je : " + (list.size() - nije));
         System.err.println("__________________________");
-        System.err.println("Nije uvezao: " + nije);
+        System.err.println((fub_n != null ? "Nije uvezao: " + nije + fub_n.toString() : ""));
 
     }
 }

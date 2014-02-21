@@ -23,7 +23,7 @@ import jxl.read.biff.BiffException;
 public class App_JExcell {
 
     public static void main(String[] args) throws IOException, BiffException {
-        Workbook workbook = Workbook.getWorkbook(new File("src/javaapplication/FU1.xls"));
+        Workbook workbook = Workbook.getWorkbook(new File("src/javaapplication/FU2.xls"));
         Sheet sheet = workbook.getSheet(0);
 
         FakturisaneUslugeBean fu;
