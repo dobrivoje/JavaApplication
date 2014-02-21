@@ -7,10 +7,14 @@ package javaapplication;
 import com.dobrivoje.CSV.CSVUtils;
 import com.dobrivoje.CSV.FakturisaneUslugeBean;
 import com.dobrivoje.CSV.ICVSAble;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -1277,10 +1281,14 @@ public class JavaApplication1 {
         int nije = 0;
 
         CSVUtils csvu;
+        List list = null;
         FakturisaneUslugeBean fub;
+        File file = new File("src/javaapplication/FakturisaneUsluge2.csv");
 
         try {
-            csvu = CSVUtils.getDafault("src/javaapplication/FakturisaneUsluge2.csv");
+            csvu = CSVUtils.getDafault(file, ';', 0);
+            list = csvu.getList();
+
             csvu.setUpBean(new FakturisaneUslugeBean());
 
             for (ICVSAble fUsluga : csvu.getList()) {
@@ -1288,10 +1296,8 @@ public class JavaApplication1 {
 
                 try {
                     System.out.println(fub.toString() + ", " + (s += nf.parse(fub.getSati()).floatValue()));
-                } catch (ClassCastException e1) {
+                } catch (ParseException nfe) {
                     nije++;
-                } finally {
-                    fub = null;
                 }
             }
 
@@ -1299,19 +1305,20 @@ public class JavaApplication1 {
             System.err.println("Ne postoji fajl !");
         }
 
+        TimeUnit.SECONDS.sleep(1);
+        
         System.out.println("__________________________");
         System.out.println(s);
         System.out.println("Greške");
 
-        /*
-         System.out.println("__________________________");
-         System.out.println(s);
-         System.out.println("__________________________");
-         System.out.println("Uvezao je : " + (list.size() - nije));
-         System.err.println("__________________________");
-         System.err.println("Nije uvezao: " + nije);
-         System.out.println("__________________________");
-         System.out.println("Ukupno :" + list.size());
-         */
+        System.out.println("__________________________");
+        System.out.println(s);
+        System.out.println("__________________________");
+        System.out.println("Uvezao je : " + (list.size() - nije));
+        System.err.println("__________________________");
+        System.err.println("Nije uvezao: " + nije);
+        System.out.println("__________________________");
+        System.out.println("Ukupno :" + list.size());
+
     }
 }

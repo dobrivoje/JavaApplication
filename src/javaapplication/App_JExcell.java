@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.dobrivoje.EXCELL;
+package javaapplication;
 
+import com.dobrivoje.EXCELL.FakturisaneUslugeBean;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import jxl.read.biff.BiffException;
 public class App_JExcell {
 
     public static void main(String[] args) throws IOException, BiffException {
-        Workbook workbook = Workbook.getWorkbook(new File("src/com/dobrivoje/EXCELL/FU1.xls"));
+        Workbook workbook = Workbook.getWorkbook(new File("src/javaapplication/FU1.xls"));
         Sheet sheet = workbook.getSheet(0);
 
         FakturisaneUslugeBean fu;

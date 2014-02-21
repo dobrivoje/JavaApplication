@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.dobrivoje.EXCELL;
+package javaapplication;
 
 import Exceptions.ExcelSheetException;
+import com.dobrivoje.EXCELL.ExcelUtils;
 import java.io.File;
 
 /**
@@ -19,7 +20,7 @@ public class JavaAppTest {
      */
     public static void main(String[] args) {
         try {
-            File f = new File("src/com/dobrivoje/EXCELL/FU1.xls");
+            File f = new File("src/javaapplication/FU1.xls");
 
             ExcelUtils eu = ExcelUtils.getDafault(f);
             System.out.println(eu.toString());

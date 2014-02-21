@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.dobrivoje.EXCELL;
+package javaapplication;
 
+import com.dobrivoje.EXCELL.FakturisaneUslugeBean;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class App_AppachePOI {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         int sheetIndex = 0;
         Workbook workbook = new HSSFWorkbook(
-                new FileInputStream("src/com/dobrivoje/EXCELL/FU1.xls"));
+                new FileInputStream("src/javaapplication/FU1.xls"));
         Sheet sheet = workbook.getSheetAt(sheetIndex);
 
         for (int rowNo = 0; rowNo < 19; rowNo++) {
