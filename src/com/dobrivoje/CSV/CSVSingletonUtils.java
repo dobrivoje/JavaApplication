@@ -16,10 +16,11 @@ import java.util.List;
 /**
  *
  * @author root
+ * @param <T>
  */
-public class CSVUtils {
+public abstract class CSVSingletonUtils<T> {
 
-    private static CSVUtils instance;
+    protected List<T> CSVBeanList;
     //
     private static char Separator = ';';
     private static final char CSV_Param = '\'';
@@ -28,36 +29,43 @@ public class CSVUtils {
     private static CSVReader CVSReader;
     private static final CsvToBean CVSToBean = new CsvToBean();
     private static final ColumnPositionMappingStrategy cpms = new ColumnPositionMappingStrategy();
-    //
-    private static List<ICVSAble> CVSBeanList = new ArrayList<>();
 
-    protected CSVUtils(File file, char Separator, int PreskociBrLinija) throws FileNotFoundException {
-        init(file, Separator, PreskociBrLinija);
-    }
+    /**
+     *
+     * @param file
+     * @param Separator
+     * @param PreskociBrLinija
+     * @throws FileNotFoundException
+     */
+    protected CSVSingletonUtils(File file, char Separator, int PreskociBrLinija) throws FileNotFoundException {
+        this.CSVBeanList = new ArrayList<>();
 
-    private static void init(File file, char Separator, int PreskociBrLinija) throws FileNotFoundException {
-        CSVUtils.Separator = Separator;
-        CSVUtils.PreskociBrLinija = PreskociBrLinija;
+        CSVSingletonUtils.Separator = Separator;
+        CSVSingletonUtils.PreskociBrLinija = PreskociBrLinija;
 
         CVSReader = new CSVReader(new FileReader(file), Separator, CSV_Param, PreskociBrLinija);
-    }
-
-    public static CSVUtils getDafault(File file) throws FileNotFoundException {
-        return instance = (instance == null ? new CSVUtils(file, ';', 1) : instance);
-    }
-
-    public static CSVUtils getDafault(File file, char Separator, int PreskociBrLinija) throws FileNotFoundException {
-        return instance = (instance == null ? new CSVUtils(file, Separator, PreskociBrLinija) : instance);
     }
 
     public void setUpBean(ICVSAble bean) {
         cpms.setType(bean.getClass());
         cpms.setColumnMapping(bean.getColumns().toArray(new String[bean.getColumns().size()]));
 
-        CVSBeanList = CVSToBean.parse(cpms, CVSReader);
+        this.CSVBeanList = CVSToBean.parse(cpms, CVSReader);
     }
 
-    public List<ICVSAble> getList() {
-        return CVSBeanList;
+    public List<T> getCSVBeanList() {
+        return CSVBeanList;
+    }
+
+    @Override
+    public String toString() {
+        int rb = 0;
+        String tmp = "";
+
+        for (T t : getCSVBeanList()) {
+            tmp += (++rb) + ".  " + t.toString() + '\n';
+        }
+
+        return tmp;
     }
 }
