@@ -1247,7 +1247,7 @@ public class JavaApplication1 {
          System.err.println(ll2.get(i));
          }
          */
-        NumberFormat nff = new DecimalFormat();
+        NumberFormat nff = new DecimalFormat("##,##");
         String b1 = "10,22";
         String b2 = "15,31";
 

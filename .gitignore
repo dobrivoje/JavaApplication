@@ -1,2 +1,5 @@
 /build/
 /dist/
+/EJBModule/nbproject/private/
+/EJBModule/build/
+/EJBModule/dist/

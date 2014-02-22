@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author dobri
  */
-public class FakturisaneUslugeBean implements IExcelable {
+public class FakturisaneUslugeBean {
 
     private String Radnik;
     private double Sati;
@@ -24,8 +24,7 @@ public class FakturisaneUslugeBean implements IExcelable {
 
     private static final String[] kolone = new String[]{"Radnik", "Sati", "RadniNalog", "DatumRacuna", "ProfitniCentar"};
 
-    @Override
-    public List<String> getColumns() {
+    public static List<String> getColumns() {
         return new ArrayList<>(Arrays.asList(kolone));
     }
 
