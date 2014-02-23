@@ -28,6 +28,7 @@ public class FUCSVBean implements ICVSAble {
         return new ArrayList<>(Arrays.asList(kolone));
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Konstruktori, getters/setters">
     public FUCSVBean() {
     }
 
@@ -78,6 +79,7 @@ public class FUCSVBean implements ICVSAble {
     public void setProfitniCentar(String ProfitniCentar) {
         this.ProfitniCentar = ProfitniCentar;
     }
+//</editor-fold>
 
     @Override
     public String toString() {

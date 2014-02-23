@@ -7,6 +7,7 @@ package com.dobrivoje.EXCELL;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import jxl.Sheet;
@@ -32,17 +33,20 @@ public abstract class ExcelSingletonUtils<T> {
         ExcelSingletonUtils.PreskociBrLinija = PreskakanjeLinija;
     }
 
-    public abstract List<T> getExcelBeanList();
+    public abstract List<T> getExcelBeanList() throws ParseException;
 
     @Override
     public String toString() {
-        int rb = 0;
-        String tmp = "";
+        try {
+            int rb = 0;
+            String tmp = "";
 
-        for (T t : getExcelBeanList()) {
-            tmp += (++rb) + ".  " + t.toString() + '\n';
+            for (T t : getExcelBeanList()) {
+                tmp += (++rb) + ".  " + t.toString() + '\n';
+            }
+            return tmp;
+        } catch (ParseException | ClassCastException ex) {
+            return "Greška u Excel fajlu! Proveriti vrednosti u kolonama.";
         }
-
-        return tmp;
     }
 }

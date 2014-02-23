@@ -8,7 +8,10 @@ import Exceptions.ExcelSheetException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
+import jxl.Cell;
+import jxl.CellType;
 import jxl.DateCell;
 import jxl.NumberCell;
 
@@ -37,8 +40,9 @@ public class ExcelUtils extends ExcelSingletonUtils<FUExcelBean> {
     }
 
     @Override
-    public List<FUExcelBean> getExcelBeanList() {
+    public List<FUExcelBean> getExcelBeanList() throws ParseException {
         FUExcelBean fuTmp;
+        Cell datum;
 
         for (int vrsta = PreskociBrLinija; vrsta < Sheet.getRows(); vrsta++) {
             fuTmp = new FUExcelBean();
@@ -46,7 +50,14 @@ public class ExcelUtils extends ExcelSingletonUtils<FUExcelBean> {
             fuTmp.setRadnik(Sheet.getCell(0, vrsta).getContents());
             fuTmp.setSati(((NumberCell) Sheet.getCell(1, vrsta)).getValue());
             fuTmp.setRadniNalog(Sheet.getCell(2, vrsta).getContents());
-            fuTmp.setDatumRacuna(((DateCell) Sheet.getCell(3, vrsta)).getDate());
+
+            datum = Sheet.getCell(3, vrsta);
+            if (datum.getType() == CellType.LABEL) {
+                fuTmp.setDatumRacuna(datum.getContents());
+            } else if (datum.getType() == CellType.DATE) {
+                fuTmp.setDatumRacuna(((DateCell) datum).getDate());
+            }
+
             fuTmp.setProfitniCentar(Sheet.getCell(4, vrsta).getContents());
 
             ExcelBeanList.add(fuTmp);

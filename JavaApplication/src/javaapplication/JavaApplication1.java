@@ -9,11 +9,14 @@ import com.dobrivoje.CSV.FUCSVBean;
 import com.dobrivoje.CSV.ICVSAble;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,7 +27,7 @@ public class JavaApplication1 {
 
     static Date datum1 = null;
     static Date vreme1 = null;
-    static String datum1Str = null;
+    static String datum1Str = "03.01.2008";
     static String vreme1Str = null;
 
     private static int X = 0;
@@ -37,43 +40,43 @@ public class JavaApplication1 {
         }
     }
 
+    //<editor-fold defaultstate="collapsed" desc="comment">
     /**
      * @param args the command line arguments
      * @throws java.lang.Exception
      */
-
     /*
      private void generisiIzvestaj(long IDRadnik, String datumOD, String datumDO) {
      Map<String, Object> JasperParametri = new HashMap<>();
-
+    
      ERSQuery.getEm().getTransaction().begin();
      Connection connection = ERSQuery.getEm().unwrap(java.sql.Connection.class);
-
+    
      try {
      JasperParametri.put("IDRADNIK", IDRadnik);
      JasperParametri.put("DATUM_OD", datumOD);
      JasperParametri.put("DATUM_DO", datumDO);
-
+    
      InputStream is = this.getClass()
      .getClassLoader()
      .getResourceAsStream(
      "izvestaji/jasperreports/radnik/za_period_detaljno/RadnikSatiZaPeriod.jasper");
-
+    
      JasperPrint jasperPrint = JasperFillManager.fillReport(is, JasperParametri, connection);
      JasperViewer.setDefaultLookAndFeelDecorated(true);
-
+    
      JasperViewer.viewReport(jasperPrint, false);
      ERSQuery.getEm().getTransaction().commit();
      } catch (NullPointerException e1) {
      System.out.println("Greška pri izboru datuma ili radnika.");
-
+    
      ERSQuery.getEm().getTransaction().rollback();
      } catch (JRException ex) {
      System.out.println("Greška pri generisanju izveštaja !");
-
+    
      ERSQuery.getEm().getTransaction().rollback();
      } catch (java.lang.IllegalStateException ise) {
-
+    
      ERSQuery.getEm().getTransaction().rollback();
      } catch (Exception ee) {
      System.out.println("Greška u modulu izveštaja !");
@@ -86,13 +89,15 @@ public class JavaApplication1 {
      }
      }
      */
+//</editor-fold>
     public static void main(String[] args) throws Exception {
+
+        //<editor-fold defaultstate="collapsed" desc="comment">
         //<editor-fold defaultstate="collapsed" desc="razni testovi">
         // EntityManagerFactory emf = Persistence.createEntityManagerFactory("JavaApplicationPU");
         // EntityManager em = emf.createEntityManager();
         //<editor-fold defaultstate="collapsed" desc="razni testovi">
         //new javaapplication.JavaApplication().generisiIzvestaj(12, "2013-4-1", "2013-4-30");
-
         /*
          * System.out.println();
          * System.out.println();
@@ -195,7 +200,6 @@ public class JavaApplication1 {
          * System.out.println(ds.getYMDDatumOD());
          * System.out.println(ds.getYMDDatumDO());
          */
-
         /*
          * TESTOVI PREKO WEB SERVISA :
          * Kompanija k = KompanijaWS.kompanijaPoID(1);
@@ -459,7 +463,6 @@ public class JavaApplication1 {
          * } catch (ParseException ex) {
          * }*/
         //</editor-fold>
-
         /*
          * System.out.println("______________________________________________________");
          * System.out.println("Izvestaj_evidencijeRadnikaZaJedanDan test");
@@ -536,7 +539,6 @@ public class JavaApplication1 {
          * System.err.println(fn.toString());
          * }
          */
-
         /*
          * System.out.println("______________________________________________________");
          * System.out.println("Test6 - poređenje poslovanja");
@@ -557,18 +559,18 @@ public class JavaApplication1 {
          * }
          *
          * System.err.println((new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
-       
+        
          System.out.println("______________________________________________________");
          System.out.println("Test7 - radnal, sasija, šifra kupca");
          System.out.println();
-       
+        
          Nald001 nalog = INFSistemQuery.radniNalogDetalji("114587");
          System.out.println(nalog.toString());
-       
+        
          for (Nald001 n1 : INFSistemQuery.radniNaloziZaSasiju("WVGZZZ5NZBW518502 ")) {
          System.out.println(n1.toString());
          }
-       
+        
          for (Nald001 n1 : INFSistemQuery.radniNaloziZaRegistraciju("BG 963-229")) {
          System.out.println(n1.toString());
          }
@@ -577,79 +579,78 @@ public class JavaApplication1 {
         /*
         
         
-
+        
          System.out.println("______________________________________________________");
          System.out.println("Test10 - Datumi");
          System.out.println();
-
+        
          DatumSelektor ds = DatumSelektor.getDafaultForMonthAndYear(2012, 2);
-
+        
          try {
          System.out.println("od: " + ds.getDanOD() + ", do: " + ds.getDanDO()
          + ", mesec: " + ds.getMesecOD() + ", godina :" + ds.getGodinaOD());
-
+        
          System.out.println(ds.getYMDDatumOD() + "  -  " + ds.getYMDDatumDO());
-
+        
          } catch (NullPointerException | NoResultException e) {
          }
          System.out.println("______________________________________________________");
          System.out.println("Test11 - Datumi");
          System.out.println();
-
+        
          SingleDatumSelektor sds = SingleDatumSelektor.getDafaultForMonthAndYear(1975, 9);
-
+        
          try {
          System.out.println("od: " + sds.getDanOD() + ", do: " + sds.getDanDO()
          + ", mesec: " + sds.getMesecOD() + ", godina :" + sds.getGodinaOD());
-
+        
          System.out.println(sds.getYMDDatumOD() + "  -  " + sds.getYMDDatumDO());
-
+        
          } catch (NullPointerException | NoResultException e) {
          }
          */
-
         /*
          System.out.println("______________________________________________________");
          System.out.println("Test8 - delimične šasije");
          System.out.println();
          System.out.println("ukupno nađenih :"
          + INFSistemQuery.radniNaloziDelimicnaSasija("WFONXXGB%").size());
-
-
+        
+        
          for (Nald001 n1 : INFSistemQuery.radniNaloziDelimicnaRegistracija("WFONXXGBBNGG42026")) {
          System.out.println(n1.toString());
          }
-
+        
          System.out.println("______________________________________________________");
          System.out.println("Test9 - PIB i Matični broj");
          System.out.println();
          System.out.println("ukupno nađenih :"
          + INFSistemQuery.KupciPoNazivu("prte").size());
-
-
+        
+        
          for (Sifarnik s1 : INFSistemQuery.KupciPoNazivu("prte")) {
          System.out.println(s1.toString());
          }
-
-
+        
+        
          System.out.println("______________________________________________________");
          System.out.println("Test10 - Kupci po MAT. Br.");
          System.out.println();
-
+        
          try {
          System.out.println(INFSistemQuery.KupacPoMatBr("e4sdf3").toString());
          } catch (NullPointerException | NoResultException e) {
          }
         
-
+        
          System.out.println("______________________________________________________");
          System.out.println("Test11 - Vozila Klijenta i servisi njihovih vozila");
          System.out.println();
          System.out.println(INFSistemQuery.VozilaKlijenta("014071").size());
-
+        
          for (String sasija : INFSistemQuery.VozilaKlijenta("014071")) {
          System.out.println(sasija.toString());
-
+        
          for (Nald001 n1 : INFSistemQuery.radniNaloziZaSasiju(sasija)) {
          System.err.println("     >" + n1.getBrFakt() + ", " + n1.getDatum());
          }
@@ -659,10 +660,10 @@ public class JavaApplication1 {
          System.out.println("Test11 - Vozila Klijenta i servisi njihovih vozila");
          System.out.println();
          System.out.println(INFSistemQuery.VozilaKlijenta("014071").size());
-
+        
          for (String sasija : INFSistemQuery.VozilaKlijenta("014071")) {
          System.out.println(sasija.toString());
-
+        
          for (Nald001 n1 : INFSistemQuery.radniNaloziZaSasiju(sasija)) {
          System.err.println("     >" + n1.getBrFakt() + ", "
          + n1.getDatum() + ", "
@@ -670,64 +671,64 @@ public class JavaApplication1 {
          + n1.getTip());
          }
          }
-
+        
          int duzinaSifreINFSISTEM = 6;
          String novaSifra = "000000000000000000000000000000000";
-
+        
          novaSifra += Integer.toString(18566);
          novaSifra = novaSifra.substring(novaSifra.length() - duzinaSifreINFSISTEM);
-       
-         System.err.println(novaSifra);
-       
         
-
+         System.err.println(novaSifra);
+        
+        
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test12 - Vozila Klijenta po datumu i servisi njihovih vozila");
          System.out.println();
          System.out.println(INFSistemQuery.VozilaKlijentaPoDatumu("014071", "2009-1-1", "2010-12-31").size());
-
+        
          for (Nald001 n1 : INFSistemQuery.VozilaKlijentaPoDatumu("014071", "2009-1-1", "2010-12-31")) {
          System.out.println(n1.toString());
          }
-       
         
-
+        
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test13 - RN i FAKTURA");
          System.out.println();
          System.out.println(INFSistemQuery.pretraga_RN_Faktura("115610", true).size());
-
+        
          for (Nald001 n1 : INFSistemQuery.pretraga_RN_Faktura("115610", true)) {
          System.out.println(n1.toString());
          }
-       
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test14 - Storno Faktura");
          System.out.println();
          System.out.println(INFSistemQuery.pretraga_Storno_Faktura("114916").size());
-
+        
          for (Nald001 n1 : INFSistemQuery.pretraga_Storno_Faktura("114916")) {
          System.out.println(n1.toString());
          }
-       
         
-
+        
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test15 - Storno Fakture");
          System.out.println();
          System.out.println(INFSistemQuery.storno_Fakture_ZaPeriod("2013-4-1", "2013-4-30").size());
-
+        
          for (Nald001 n1 : INFSistemQuery.storno_Fakture_ZaPeriod("2013-4-1", "2013-4-30")) {
          System.out.println(n1.toString());
          }
         
         
-
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test15 - Fakture u periodu");
          System.out.println();
          System.out.println(INFSistemQuery.fakture_ZaPeriod("2013-9-1", "2013-9-3").size());
-
+        
          for (Nald001 n1 : INFSistemQuery.fakture_ZaPeriod("2013-9-1", "2013-9-3")) {
          System.out.println("R/F-" + n1.getRadnal() + "/" + n1.getBrFakt()
          + ", Ukupno " + n1.getUkupno()
@@ -735,12 +736,12 @@ public class JavaApplication1 {
          + n1.getZatvoren() + ", "
          + n1.getFakturisan());
          }
-       
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test16 - Storno fakture u periodu");
          System.out.println();
          System.out.println(INFSistemQuery.storno_Fakture_ZaPeriod("2013-9-1", "2013-9-30").size());
-
+        
          for (Nald001 n1 : INFSistemQuery.storno_Fakture_ZaPeriod("2013-9-1", "2013-9-30")) {
          System.out.println("Storno - R/F-" + n1.getRadnal() + "/" + n1.getBrFakt()
          + ", Ukupno " + n1.getUkupno()
@@ -748,27 +749,27 @@ public class JavaApplication1 {
          + n1.getZatvoren() + ", "
          + n1.getFakturisan());
          }
-       
-       
-       
+        
+        
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test17 - Fakture za datum ");
          System.out.println();
          System.out.println(INFSistemQuery.faktureZaDatum("2013-9-3").size());
-       
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test17 - Radni nalozi za datum ");
          System.out.println();
          System.out.println(INFSistemQuery.radniNaloziZaDatum("2013-9-3").size());
-
         
-
+        
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test18 - storno u periodu ");
          System.out.println();
-
+        
          float ukupno = 0;
-
+        
          for (Nald001 n1 : INFSistemQuery.storno_Fakture_ZaPeriod("2013-9-1", "2013-9-20")) {
          System.out.println("ST/FA-" + n1.getRadnal() + "/" + n1.getBrFakt()
          + ", Ukupno " + n1.getUkupno()
@@ -779,19 +780,19 @@ public class JavaApplication1 {
          }
          System.out.println("____________________________________________________________");
          System.out.println("Ukupno :"+(-1*ukupno));
-       
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test19 - Stringovi");
          System.out.println();
-       
+        
          System.err.println("WAUZZZ44ZLN067843".substring(0, 3));
         
         
-
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test21 - storno");
          System.out.println();
-
+        
          for (Nald001 n3 : INFSistemQuery.pretragaPoFakturi("115422")) {
          if (n3.getUkupno() < 0) {
          System.err.println(n3.getRadnal() + "/" + n3.getBrFakt());
@@ -799,93 +800,92 @@ public class JavaApplication1 {
          System.out.println(n3.getRadnal() + "/" + n3.getBrFakt());
          }
          }
-       
         
-
+        
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test22 - generator ikonica za šasije");
          System.out.println();
-
+        
          INodeIconRenderer inir = new INodeIconRenderer() {
          @Override
          public void node_setIconBaseWithExtension(String URL) {
          System.err.println(URL);
          }
          };
-
+        
          ChasisIconRenderer cir = ChasisIconRenderer.getDefault();
          cir.generateIcons("VSS", inir);
         
          System.out.println("____________________________________________________________");
          System.out.println("Test23 - Radnik Servisa");
          System.out.println();
-       
-         System.out.println(INFSistemQuery.Radnik("0173"));
-       
         
-
+         System.out.println(INFSistemQuery.Radnik("0173"));
+        
+        
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test24 - Sve Šifre Kupaca");
          System.out.println();
-
+        
          for (Sifarnik s : INFSistemQuery.SveSifre()) {
          System.out.println(s.toString());
          }
         
          */
-
         /*
          System.err.println();
-
-
+        
+        
          System.out.println("______________________________________________________");
          System.out.println("");
          System.out.println();
-
-
+        
+        
          // vreme i datum kao stringovi
          String tt1 = "2011-07-11 13:02:20";
          String tt2 = "2011-07-11 13:10:00";
-
+        
          String danasnjiDatum = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
          String vreme = new SimpleDateFormat("hh:mm:ss").format(new Date());
          String datumVreme = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
-
+        
          Date diff;
-
+        
          long ttt1 = 0, ttt2 = 0;
          try {
          // long sadasnjeVreme = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(new Date().getTime());
-
+        
          ttt1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(tt1).getTime();
          ttt2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(tt2).getTime();
          Date tt1_datum = new SimpleDateFormat("yyyy-MM-dd").parse(tt1);
          // Date tt1_vreme = new SimpleDateFormat("hh:mm:ss").parse(tt1);
-
+        
          diff = new Date(ttt2 - ttt1);
-
+        
          System.out.println("Današnji Datum :" + danasnjiDatum);
          System.out.println("Današnje datum i vreme :" + datumVreme);
          System.out.println("Današnje Vreme :" + vreme);
          System.out.println("UKUPNA RAZLIKA U MINUTIMA :" + diff.getTime() / 1000 / 60);
          System.out.println("_____________________________");
-
+        
          // vreme i datum kao Date !!!
          System.out.println("tt1 date :" + new SimpleDateFormat("dd.MM.yyyy").format(tt1_datum));
          //System.out.println("tt1 vreme :" + tt1_vreme);
-
+        
          } catch (ParseException ex) {
          }
-
+        
          System.err.println(queries.ERSQuery.poslednjaEvidencijaRadnikaZaDatum(r, "2013-10-12").getRbrstanja());
         
          // ERSQuery.evidencijeRadnikaZaDatum(r, "2013-10-9 22:32");
          // ERSQuery.evidentirajAktivnostRadnika(r, "2013-10-12 08:08", 1, "xxx-12-20000-568");
-       
+        
          System.err.println(r.getFKIDOrgjed().getFKIDFirma().toString());
          System.err.println(r.toString());
-
-       
+        
+        
          for (Raddan r1 : queries.ERSQuery.evidencijaSvihRadnikaFirmeZaDatum(f, "2013-10-12")) {
          System.out.println(
          r1.getImeRadnika() + ", " + r1.getPCentar() + ", "
@@ -898,61 +898,60 @@ public class JavaApplication1 {
          System.err.println("m: " + vremena.getTrajanjeMinuti() + ", s:" + vremena.getTrajanjeSekunde());
         
          DatumVremeSelektor dvs = DatumVremeSelektor.getDafault();
-
+        
          dvs.setDatumOD("2010-9-7");
          dvs.setVremeOD("16:20:00");
          dvs.setDatumDO("2010-9-17");
          dvs.setVremeDO("16:25:00");
-
+        
          System.out.println(dvs.getDanOD() + "..." + dvs.getMesecOD() + "..." + dvs.getGodinaOD());
          System.out.println(dvs.getDanDO() + "..." + dvs.getMesecDO() + "..." + dvs.getGodinaDO());
          System.out.println(dvs.getVremeODString() + "---" + dvs.getVremeDOString());
          System.out.println(dvs.getTrajanjeSekunde() + ", " + dvs.getTrajanjeMinuti() + ", " + dvs.getTrajanjeSati());
         
          */
-
         /*
          System.out.println("____________________________________________________________");
          System.out.println("Test25 - Upis raddan-a");
          System.out.println();
-
+        
          Firma f = queries.ERSQuery.FirmaID(2);
          Radnik r = queries.ERSQuery.radnikID(9);
          Statusi s = queries.ERSQuery.statusPoID(1);
-
+        
          try {
          ERSQuery.evidentirajAktivnostRadnika2(r, "2013-10-12 9:40:00", s, "xxx888");
          } catch (DatumException e) {
          System.err.println("problemi sa datumima !");
          }
-
+        
          for (Raddan r1 : queries.ERSQuery.evidencijeRadnikaZaDatum(r, "2013-10-12")) {
          System.out.println(
          r1.getImeRadnika() + ", " + r1.getPCentar() + ", "
          + r1.getPocStanja() + ", " + r1.getKrajStanja() + ", t:" + r1.getTrajanje());
          }
-
+        
          String sadasnjeDatumVreme = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
-       
+        
          Date sadasnjeDatumVreme_Date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2013-10-12 19:40:00");
          String sadasnjeVreme_Str = new SimpleDateFormat("hh:mm:ss").format(new Date(sadasnjeDatumVreme_Date.getTime()));
-       
+        
          long sadasnjeVreme = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(sadasnjeDatumVreme).getTime();
          String sadasnjiDatumString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
          String sadasnjeVremeString = new SimpleDateFormat("hh:mm:ss").format(new Date(sadasnjeVreme));
-       
+        
          System.err.println("sadasnjeDatumVreme :" + sadasnjeDatumVreme);
          System.err.println("sadasnjeVreme: " + sadasnjeVremeString);
          System.err.println("sadasnjiDatumString: " + sadasnjiDatumString);
          System.err.println("sadasnjeVreme_Str: " + sadasnjeVreme_Str);
-         
         
-
+        
+        
          DatumVremeSelektor dvs = DatumVremeSelektor.getDafault();
-
+        
          dvs.setDatumVremeOD("2013-10-13 13:40:00");
          dvs.setDatumVremeDO("2013-10-13 19:45:00");
-
+        
          System.out.println("getVremeODString : " + dvs.getVremeODString());
          System.out.println("getVremeDOString : " + dvs.getVremeDOString());
          System.out.println("getVremeOD : " + dvs.getVremeOD());
@@ -966,112 +965,112 @@ public class JavaApplication1 {
          System.out.println("getDatumDO : " + dvs.getDatumDO());
          System.out.println("getDatumVremeODString : " + dvs.getDatumVremeODString());
          System.out.println("getDatumVremeDOString : " + dvs.getDatumVremeDOString());
-
+        
          Vremena v = Vremena.getDafault();
          v.setVremeOD("18:00:00");
          v.setVremeDO("18:11:00");
          System.out.println("getTrajanjeMinuti : " + v.getTrajanjeMinuti());
-       
+        
          // NE RADI !!!!
          // SingleDatumVremeSelektor sdvs = SingleDatumVremeSelektor.getDafault();
          // sdvs.setDatumVreme("2010-09-07 16:20:00");
          // System.out.println("SingleDatumVremeSelektor Datumi: " + sdvs.getDatumString());
-
+        
         
         
         
          System.out.println("____________________________________________________________");
          System.out.println("Test25 - Upis raddan-a");
          System.out.println();
-
+        
          Firma f = queries.ERSQuery.FirmaID(2);
          Radnik r = queries.ERSQuery.radnikID(9);
          Statusi s = queries.ERSQuery.statusPoID(1);
-
+        
          Date d1 = new Date();
          Date d2 = new Date(d1.getTime() + 1000 * 60 * 7);
         
          java.sql.Date d3=new java.sql.Date(d2.getTime());
-
+        
          System.err.println(d3);
         
          ERSQuery.evidentirajAktivnostRadnika3(r, d2, s, "TEST-3000-77-12");
-
+        
          for (Raddan r1 : queries.ERSQuery.evidencijaSvihRadnikaFirmeZaDatum(f, "2013-10-15")) {
          System.out.println(
          r1.getImeRadnika() + ", " + r1.getPoslovnica() + ", "
          + r1.getPocStanja() + ", " + r1.getKrajStanja() + ", t:" + r1.getTrajanje());
          }
         
-         
+        
          /*
          Connection c;
          int timeout = 0;
-
+        
          EntityManagerFactory emf;
          EntityManager em;
-
+        
          try {
-
+        
          emf = Persistence.createEntityManagerFactory("JavaLibraryEntitiesPU");
          em = emf.createEntityManager();
-
+        
          c = em.unwrap(java.sql.Connection.class);
          timeout = c.getNetworkTimeout();
-
+        
          } catch (Exception e) {
          System.err.println("ne postoji konekcija sa sql serverom: vreme: " + timeout);
          }
         
-         
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test - Svi nalozi po šifri kupca - šasija se ne ponavlja");
          System.out.println();
          System.out.println("Ukupno: " + queries.infsistem.INFSistemQuery.VozilaKlijenta2("019084").size());
-
+        
          for (Nald001 r1 : queries.infsistem.INFSistemQuery.VozilaKlijenta2("019084")) {
          System.out.println(r1.getSasija());
          }
         
-
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test - FaktSati iz ERS FaktSati tabele !!!");
          System.out.println();
-
+        
          Radnik r = queries.ERSQuery.radnikID(17);
          System.err.println(r.toString());
         
          for (FaktSati f1 : queries.ERSQuery.evidencijeFaktSataRadnikaZaDatum(r, "2013-1-9")) {
          System.out.println(f1.toString());
          }
-
-
+        
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test - Tipovi Radnika iz ERS");
          System.out.println();
-
+        
          for (TipRadnika f1 : queries.ERSQuery.sviTipoviRadnika()) {
          System.out.println(f1.toString());
          }
         
-         
+        
          for (Sifarnik s1 : queries.infsistem.INFSistemQuery.KupciPoNazivu("ald")) {
          System.out.println(s1.toString());
          }
-
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test - 2222");
          System.out.println();
-
+        
          System.err.println("X=" + X);
          test.Izmeni(2);
          System.err.println("X=" + X);
         
-         
+        
          System.out.println("____________________________________________________________");
          System.out.println("Test - Cenovnik RD");
          System.out.println();
-
+        
          for (Cenovnik c1 : queries.CRDQuery.listaSvihCenovnika()) {
          System.out.println(c1.toString());
          }
@@ -1084,46 +1083,46 @@ public class JavaApplication1 {
          System.out.println(c1.toString());
          }
         
-         
+        
          EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JavaLibraryCENOVNIK_RD_PU");
          EntityManager entityManager = entityManagerFactory.createEntityManager();
          KatBroj kb;
          List<KatBroj> lista = new ArrayList<>();
-
+        
          try {
          EntityTransaction entityTransaction = entityManager.getTransaction();
          entityTransaction.begin();
-
+        
          Connection connection = entityManager.unwrap(java.sql.Connection.class);
-
+        
          //primer sa stored procedurom sa sql servera, direktnim unosom parametra
          //pri čemu se vraća jedinstven rezultat
          CallableStatement callableStatement = null;
          ResultSet resultSet = null;
-
+        
          callableStatement = connection.prepareCall("{call [dbo].[ceneKatBrojeva] (?1,?2)}");
-
+        
          //primer sa stored procedurom sa sql servera, direktnim unosom parametra
          //pri čemu se vraća VIŠE OD JEDNOG REZULTATA !!!
          callableStatement.setString(1, "1K1819653");
          callableStatement.setString(2, null);
          resultSet = callableStatement.executeQuery();
-
+        
          //stored procedura vraća tabelu sa 4 parametra !!!
          while (resultSet.next()) {
          kb = new KatBroj();
-
+        
          kb.setKatBroj(resultSet.getString(1));
          kb.setNaziv(resultSet.getString(2));
          kb.setCena(resultSet.getFloat(3));
          kb.setDatum(resultSet.getString(4));
-
+        
          lista.add(kb);
-
+        
          kb = null;
-
+        
          }
-
+        
          entityTransaction.commit();
          } catch (SQLException e1) {
          System.out.println(e1.getMessage());
@@ -1221,15 +1220,15 @@ public class JavaApplication1 {
          System.out.println("____________________________________________________________");
          System.out.println("Test !");
          System.out.println();
-
+        
          for (Integer s1 : INFSYS.queries.INFSistemQuery.daniZa_brRN_U_Periodu("2014-1-1", "2014-1-31")) {
          System.err.println(s1.toString());
          }
-
+        
          for (Long n1 : INFSYS.queries.INFSistemQuery.brRN_U_Periodu("2014-1-1", "2014-1-31")) {
          System.err.println(n1.toString());
          }
-
+        
          System.out.println("____________________________________________________________");
         
          List<Integer> ll = INFSYS.queries.INFSistemQuery.daniZa_brRN_U_Periodu("2014-1-1", "2014-1-31");
@@ -1267,14 +1266,15 @@ public class JavaApplication1 {
         /*
          CsvToBean csv = new CsvToBean();
          CSVReader reader = new CSVReader(new FileReader("src/javaapplication/FakturisaneUsluge2.csv"), ';', '\'', 1);
-
+        
          ColumnPositionMappingStrategy strat = new ColumnPositionMappingStrategy();
          strat.setType(FUCSVBean.class);
-
+        
          // Nazivi kolona su iz definisanog bean-a !!! (a ne iz csv-a)
          strat.setColumnMapping(FUCSVBean.getColumns());
          List<FakturisaneUslugeBean> list = csv.parse(strat, reader);
          */
+//</editor-fold>
         NumberFormat nf = new DecimalFormat("#,#");
 
         float s = 0;
@@ -1311,14 +1311,43 @@ public class JavaApplication1 {
         System.out.println(s);
         System.out.println("Izveštaj");
         System.out.println("__________________________");
-        System.out.println("Ukupno CSV zapisa: " + list.size());
+        System.out.println(list != null ? "Ukupno CSV zapisa: " + list.size() : "");
 
         System.out.println("__________________________");
         System.out.println(s);
         System.out.println("__________________________");
-        System.out.println("Uvezao je : " + (list.size() - nije));
+        System.out.println(list != null ? "Uvezao je : " + (list.size() - nije) : "");
         System.err.println("__________________________");
         System.err.println((fub_n != null ? "Nije uvezao: " + nije + fub_n.toString() : ""));
 
+        int style = DateFormat.MEDIUM;
+        //Also try with style = DateFormat.FULL and DateFormat.SHORT
+        Date date = new Date();
+        DateFormat df;
+        df = DateFormat.getDateInstance(style, Locale.UK);
+        System.out.println("United Kingdom: " + df.format(date));
+        df = DateFormat.getDateInstance(DateFormat.DEFAULT , Locale.GERMANY);
+        System.out.println("United Kingdom: " + df.format(date));
+        df = DateFormat.getDateInstance(style, Locale.US);
+        System.out.println("USA: " + df.format(date));
+        df = DateFormat.getDateInstance(style, Locale.FRANCE);
+        System.out.println("France: " + df.format(date));
+        df = DateFormat.getDateInstance(style, Locale.ITALY);
+        System.out.println("Italy: " + df.format(date));
+        df = DateFormat.getDateInstance(style, Locale.JAPAN);
+        System.out.println("Japan: " + df.format(date));
+        df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
+        System.out.println("Lokalni: " + df.format(date));
+
+        //
+        final String pattern1 = ((SimpleDateFormat) DateFormat.getDateInstance()).toPattern();
+        final String pattern2 = ((SimpleDateFormat) DateFormat.getDateInstance()).toLocalizedPattern();
+        System.out.println(pattern1);
+        System.out.println(pattern2);
+
+         //date.setTime(new SimpleDateFormat(pattern1, Locale.getDefault()) .parse("2014-3-25").getTime());
+         // System.err.println(new SimpleDateFormat("yyyy-M-d").format(date));
+         System.err.println(new Date(258889199110L).toString());
+         
     }
 }

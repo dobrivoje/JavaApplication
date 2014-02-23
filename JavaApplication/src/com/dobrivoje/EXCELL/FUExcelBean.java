@@ -5,6 +5,8 @@
  */
 package com.dobrivoje.EXCELL;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -32,6 +34,7 @@ public class FUExcelBean {
         return kolone;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Konstrujtori, getters/setters">
     public FUExcelBean() {
     }
 
@@ -40,6 +43,14 @@ public class FUExcelBean {
         this.Sati = Sati;
         this.RadniNalog = RadniNalog;
         this.DatumRacuna = DatumRacuna;
+        this.ProfitniCentar = ProfitniCentar;
+    }
+
+    public FUExcelBean(String Radnik, double Sati, String RadniNalog, String DatumRacuna, String ProfitniCentar) throws ParseException {
+        this.Radnik = Radnik;
+        this.Sati = Sati;
+        this.RadniNalog = RadniNalog;
+        this.DatumRacuna = new SimpleDateFormat("yyyy-MM-dd").parse(DatumRacuna);
         this.ProfitniCentar = ProfitniCentar;
     }
 
@@ -75,6 +86,10 @@ public class FUExcelBean {
         this.DatumRacuna = DatumRacuna;
     }
 
+    public void setDatumRacuna(String DatumRacuna) throws ParseException {
+        this.DatumRacuna = new SimpleDateFormat("yyyy-MM-dd").parse(DatumRacuna);
+    }
+
     public String getProfitniCentar() {
         return ProfitniCentar;
     }
@@ -82,14 +97,14 @@ public class FUExcelBean {
     public void setProfitniCentar(String ProfitniCentar) {
         this.ProfitniCentar = ProfitniCentar;
     }
+    //</editor-fold>
 
     @Override
     public String toString() {
         return "[" + Radnik + "]"
                 + "[" + Sati + "]"
                 + "[" + RadniNalog + "]"
-                + "[" + DatumRacuna + "]"
+                + "[" + new SimpleDateFormat("d.M.yyyy").format(DatumRacuna) + "]"
                 + "[" + ProfitniCentar + "]";
     }
-
 }
