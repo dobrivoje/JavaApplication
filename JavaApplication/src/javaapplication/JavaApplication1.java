@@ -27,7 +27,7 @@ public class JavaApplication1 {
 
     static Date datum1 = null;
     static Date vreme1 = null;
-    static String datum1Str = "03.01.2008";
+    static String datum1Str = "03.01.2008.";
     static String vreme1Str = null;
 
     private static int X = 0;
@@ -1326,7 +1326,7 @@ public class JavaApplication1 {
         DateFormat df;
         df = DateFormat.getDateInstance(style, Locale.UK);
         System.out.println("United Kingdom: " + df.format(date));
-        df = DateFormat.getDateInstance(DateFormat.DEFAULT , Locale.GERMANY);
+        df = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.GERMANY);
         System.out.println("United Kingdom: " + df.format(date));
         df = DateFormat.getDateInstance(style, Locale.US);
         System.out.println("USA: " + df.format(date));
@@ -1346,8 +1346,15 @@ public class JavaApplication1 {
         System.out.println(pattern2);
 
          //date.setTime(new SimpleDateFormat(pattern1, Locale.getDefault()) .parse("2014-3-25").getTime());
-         // System.err.println(new SimpleDateFormat("yyyy-M-d").format(date));
-         System.err.println(new Date(258889199110L).toString());
-         
+        // System.err.println(new SimpleDateFormat("yyyy-M-d").format(date));
+        System.err.println(new Date(258889199110L).toString());
+
+        // radi i "03.01.2008" i "03.01.2008." sa tačkom na kraju !!!
+        // sa donjim podešavanjem !
+        String dat1 = "03.01.2008";
+        DateFormat df2 = DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMANY);
+        System.out.println("poslednji: " + df2.parse(dat1));
+        System.out.println("moj pattern: " + new SimpleDateFormat("yyyy-MM-dd").format(df2.parse(datum1Str)));
+
     }
 }
