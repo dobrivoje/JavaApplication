@@ -5,29 +5,37 @@
  */
 package com.dobrivoje.EXCELL;
 
-import com.dobrivoje.CSV.IColumnMapping;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author dobri
  */
-public class FakturisaneUslugeBean implements IColumnMapping {
+public class FakturisaneUslugeBean {
 
     private String Radnik;
     private double Sati;
     private String RadniNalog;
-    private String DatumRacuna;
+    private Date DatumRacuna;
     private String ProfitniCentar;
 
-    @Override
-    public String[] getColumnNames() {
-        return new String[]{"Radnik", "Sati", "RadniNalog", "DatumRacuna", "ProfitniCentar"};
+    private static final String[] kolone = new String[]{"Radnik", "Sati", "RadniNalog", "DatumRacuna", "ProfitniCentar"};
+
+    public static List<String> getColumns() {
+        return new ArrayList<>(Arrays.asList(kolone));
+    }
+
+    public String[] getStrColumns() {
+        return kolone;
     }
 
     public FakturisaneUslugeBean() {
     }
 
-    public FakturisaneUslugeBean(String Radnik, double Sati, String RadniNalog, String DatumRacuna, String ProfitniCentar) {
+    public FakturisaneUslugeBean(String Radnik, double Sati, String RadniNalog, Date DatumRacuna, String ProfitniCentar) {
         this.Radnik = Radnik;
         this.Sati = Sati;
         this.RadniNalog = RadniNalog;
@@ -59,11 +67,11 @@ public class FakturisaneUslugeBean implements IColumnMapping {
         this.RadniNalog = RadniNalog;
     }
 
-    public String getDatumRacuna() {
+    public Date getDatumRacuna() {
         return DatumRacuna;
     }
 
-    public void setDatumRacuna(String DatumRacuna) {
+    public void setDatumRacuna(Date DatumRacuna) {
         this.DatumRacuna = DatumRacuna;
     }
 

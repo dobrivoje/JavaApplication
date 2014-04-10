@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/C:/Documents%20and%20Settings/root/Application%20Data/NetBeans/7.4/config/WebServices/CalcWS/catalog/omnia_8181/CalcWS/CalcWS.wsdl" uri="xml-resources/web-service-references/CalcWS/wsdl/CalcWS.wsdl"/>
+    <system systemId="https://omnia:8181/CalcWS/CalcWS?WSDL" uri="xml-resources/web-service-references/CalcWS/wsdl/omnia_8181/CalcWS/CalcWS.wsdl"/>
+    <system systemId="https://omnia:8181/CalcWS/CalcWS?xsd=1" uri="xml-resources/web-service-references/CalcWS/wsdl/omnia_8181/CalcWS/CalcWS.xsd_1.xsd"/>
+    <system systemId="file:/C:/Documents%20and%20Settings/root/Application%20Data/NetBeans/7.4/config/WebServices/CalcWS/catalog/omnia_8080/CalcWS/CalcWS.wsdl" uri="xml-resources/web-service-references/CalcWS/wsdl/CalcWS.wsdl"/>
+    <system systemId="http://omnia:8080/CalcWS/CalcWS?xsd=1" uri="xml-resources/web-service-references/CalcWS/wsdl/omnia_8080/CalcWS/CalcWS.xsd_1.xsd"/>
+</catalog>

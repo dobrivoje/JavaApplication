@@ -5,13 +5,13 @@
  */
 package javaapplication;
 
-import com.dobrivoje.CSV.IColumnMapping;
+import java.util.ArrayList;
 
 /**
  *
  * @author dobri
  */
-public class FakturisaneUslugeBean implements IColumnMapping {
+public class FakturisaneUslugeBean {
 
     private String Radnik;
     private String Sati;
@@ -19,8 +19,7 @@ public class FakturisaneUslugeBean implements IColumnMapping {
     private String DatumRacuna;
     private String ProfitniCentar;
 
-    @Override
-    public String[] getColumnNames() {
+    public static String[] getColumnNames() {
         return new String[]{"Radnik", "Sati", "RadniNalog", "DatumRacuna", "ProfitniCentar"};
     }
 

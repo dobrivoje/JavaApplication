@@ -4,12 +4,14 @@
  */
 package javaapplication;
 
-import com.dobrivoje.CSV.CSVUtils;
-import com.dobrivoje.CSV.IColumnMapping;
-import java.io.FileNotFoundException;
+import INFSYS.Queries.INFSistemQuery;
+import com.dobrivoje.CSV.FakturisaneUslugeBean;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 /**
  *
@@ -1242,16 +1244,16 @@ public class JavaApplication1 {
          System.err.println(ll2.get(i));
          }
          */
-        NumberFormat nff = new DecimalFormat();
-        String b1 = "10.2";
-        String b2 = "15.3";
+        NumberFormat nff = new DecimalFormat("##,##");
+        String b1 = "10,22";
+        String b2 = "15,31";
 
         Number bb1 = nff.parse(b1);
         Number bb2 = nff.parse(b2);
 
         System.err.println("Broj: " + (bb1.floatValue() + bb2.floatValue()));
 
-        for (String polja : new FakturisaneUslugeBean().getColumnNames()) {
+        for (String polja : new FakturisaneUslugeBean().getColumns()) {
             System.out.println(polja);
         }
 
@@ -1267,51 +1269,141 @@ public class JavaApplication1 {
          strat.setType(FakturisaneUslugeBean.class);
 
          // Nazivi kolona su iz definisanog bean-a !!! (a ne iz csv-a)
-         strat.setColumnMapping(FakturisaneUslugeBean.getColumnNames());
+         strat.setColumnMapping(FakturisaneUslugeBean.getColumns());
          List<FakturisaneUslugeBean> list = csv.parse(strat, reader);
          */
-        NumberFormat nf = new DecimalFormat("#,#");
-
-        float s = 0;
-        int nije = 0;
-
-        CSVUtils csvu;
-        FakturisaneUslugeBean fub;
-
-        try {
-            csvu = CSVUtils.getDafault("src/javaapplication/FakturisaneUsluge2.csv");
-            csvu.setUpBean(new FakturisaneUslugeBean());
-
-            for (IColumnMapping fUsluga : csvu.getList()) {
-                FakturisaneUslugeBean fa = new FakturisaneUslugeBean();
-                fa = (FakturisaneUslugeBean) fUsluga;
-
-                try {
-                    System.out.println(fa.toString() + ", " + (s += nf.parse(fa.getSati()).floatValue()));
-                } catch (ClassCastException e1) {
-                    nije++;
-                } finally {
-                    fa = null;
-                }
-            }
-
-        } catch (FileNotFoundException e) {
-            System.err.println("Ne postoji fajl !");
-        }
-
-        System.out.println("__________________________");
-        System.out.println(s);
-        System.out.println("Greške");
-
         /*
+         NumberFormat nf = new DecimalFormat("#,#");
+
+         float s = 0;
+         int nije = 0;
+
+         CSVUtils csvu;
+         List<ICVSAble> list = null;
+         FakturisaneUslugeBean fub, fub_n = null;
+         File file = new File("src/javaapplication/FakturisaneUsluge.csv");
+
+         int br = 0;
+
+         try {
+         csvu = CSVUtils.getDafault(file, ';', 1);
+         csvu.setUpBean(new FakturisaneUslugeBean());
+
+         list = csvu.getList();
+
+         for (ICVSAble fu : list) {
+         fub = (FakturisaneUslugeBean) fu;
+
+         try {
+         System.out.println((++br) + ".  " + fub.toString() + ", " + (s += nf.parse(fub.getSati()).floatValue()));
+         } catch (ParseException nfe) {
+         nije++;
+         fub_n = fub;
+         }
+         }
+
+         } catch (FileNotFoundException e) {
+         System.err.println("Ne postoji fajl !");
+         }
+
+         TimeUnit.SECONDS.sleep(1);
+
+         System.out.println(s);
+         System.out.println("Izveštaj");
+         System.out.println("__________________________");
+         System.out.println("Ukupno CSV zapisa: " + list.size());
+
          System.out.println("__________________________");
          System.out.println(s);
          System.out.println("__________________________");
          System.out.println("Uvezao je : " + (list.size() - nije));
          System.err.println("__________________________");
-         System.err.println("Nije uvezao: " + nije);
-         System.out.println("__________________________");
-         System.out.println("Ukupno :" + list.size());
+         System.err.println((fub_n != null ? "Nije uvezao: " + nije + fub_n.toString() : ""));
+
          */
+        String ddd = "1.7.2013";
+        Calendar calendarOD = Calendar.getInstance();
+        Calendar calendarDO = Calendar.getInstance();
+
+        calendarOD.setTime(new SimpleDateFormat("dd.MM.yyyy").parse(ddd));
+        int poc = 1;
+
+        int mesec = calendarOD.get(Calendar.MONTH);
+        // poslednji dan u mescu !!!
+        int posl = calendarOD.getActualMaximum(Calendar.DAY_OF_MONTH);
+        int god = calendarOD.get(Calendar.YEAR);
+
+        calendarOD.set(god, mesec, 1);
+        calendarDO.set(god, mesec, posl);
+
+        System.err.println("početni dan u mesecu: " + poc + ", poslednji dan u mesecu: " + posl);
+        System.err.println("mesec: " + (mesec + 1) + ", godina: " + god);
+
+        Date d2;
+
+        String str_do;
+        /*int brRN = 0;
+        
+         for (int dan = 0; dan < posl; dan++) {
+         calendarDO.set(god, mesec, dan + 1);
+         d2 = new Date(calendarDO.getTime().getTime());
+         str_do = new SimpleDateFormat("yyyy-MM-dd").format(d2);
+        
+         brRN = INFSYS.queries.INFSistemQuery.BR_RN_ZaDatum(str_do);
+         System.out.println("mesec: " + (1+mesec) + ", dan: " + (dan + 1) + " - " + brRN);
+         }
+         */
+
+        /*ddd = "2014-2-1";
+         for (Map.Entry<Integer, Integer> en : Br_RNFA_Mesec_LineChartData(ddd, poc).entrySet()) {
+         System.err.println(en.getKey().intValue() + " - " + en.getValue().intValue());
+         }*/
+        /*
+         for (Map.Entry<Float, Float> e : INFSistemQuery.test2(2014).entrySet()) {
+         System.err.println("R-" + e.getKey() + "  " + "D-" + e.getValue());
+         }
+         */
+        /*
+         Kalendar kalendar = new Kalendar(2014, 2);
+        
+         System.err.println(kalendar.toString());
+         kalendar.setGM(2014, 2);
+         System.err.println(kalendar.toString());
+         kalendar.setGM(2014, 3);
+         System.err.println(kalendar.toString());
+         kalendar.setGM(2012, 2);
+         System.err.println(kalendar.toString());
+         kalendar.setGM(2012, 3);
+         System.err.println(kalendar.toString());
+         kalendar.setGM(2012, 3);
+         System.err.println(kalendar.toString());
+        
+         */
+        /*
+         for (Map<Integer, Integer> fagp : finansijskiAspekt_GodisnjiPregled(2014, 3, 1)) {
+         for (Map.Entry<Integer, Integer> e : fagp.entrySet()) {
+         System.out.println(e.getKey() + "  " + e.getValue());
+         }
+         }
+         */
+        /*
+         for (Map<Integer, Integer> fagp : finansijskiAspekt_GodisnjiPregled(2011, 12, 1)) {
+         for (Map.Entry<Integer, Integer> e : fagp.entrySet()) {
+         System.out.println(e.getKey() + "  " + e.getValue());
+         }
+         }
+         */
+        // System.out.println("Br faktura:" +INFSistemQuery.fakture_ZaPeriod("2013-1-1", "2013-12-31").size());
+        for (Map<Integer, Integer> m : INFSistemQuery.finansijskiAspekt_GodisnjiPregled_RadMat(2013)) {
+            for (Map.Entry<Integer, Integer> e : m.entrySet()) {
+                System.err.println("Mesec: " + e.getKey() + " ,Uk: " + e.getValue() + "   ");
+            }
+        }
+
+        for (Map<Integer, Integer> m : INFSistemQuery.finansijskiAspekt_GodisnjiPregled_RadMat(2013)) {
+            for (Map.Entry<Integer, Integer> e : m.entrySet()) {
+                System.err.println("Mesec: " + e.getKey() + " ,Uk: " + e.getValue() + "   ");
+            }
+        }
     }
 }
