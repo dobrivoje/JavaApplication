@@ -4,9 +4,12 @@
  */
 package javaapplication;
 
-import static INFSYS.Queries.INFSistemQuery.finansijskiAspekt_GodisnjiPregled_RadMat;
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -115,16 +118,16 @@ public class JavaAppTestQuery {
         int ss = 1;
 
         //Set<Integer> s = new TreeSet<>();
-         Set<String> sss = new HashSet<>();
-        
-         for (Map<Integer, Integer> s : finansijskiAspekt_GodisnjiPregled_RadMat(Godina)) {
+        Set<String> sss = new HashSet<>();
+
+        /*for (Map<Integer, Integer> s : finansijskiAspekt_GodisnjiPregled_RadMat(Godina)) {
          System.err.println("Serija-" + (ss++));
          for (Map.Entry<Integer, Integer> m : s.entrySet()) {
-         System.out.println(m.getKey() +"->"+ m.getValue());
+         System.out.println(m.getKey() + "->" + m.getValue());
          }
-         }
-         
-        /*s.add(5);
+         }*/
+        /*
+         s.add(5);
          s.add(2);
          s.add(12);
          s.add(17);
@@ -138,22 +141,36 @@ public class JavaAppTestQuery {
          System.err.println(y[i]);
          }
          */
-         /*
         String s[] = new String[]{"01", "02", "03", "10", "11"};
         int i = 1;
         Map<String, Integer> mm = new HashMap<>();
 
         for (String s1 : s) {
             System.out.println(s1);
-            //mm.put(s1, i++);
+            mm.put("xx", i++);
         }
-        
+
+        for (int iii = 0; iii < 5; iii++) {
+            mm.put("Y", iii++);
+        }
+
         for (Map.Entry<String, Integer> m : mm.entrySet()) {
             System.out.println(m.getKey() + "->" + m.getValue());
         }
 
         System.out.println();
         System.err.println("ukupno :" + (System.currentTimeMillis() - t1) + " ms.");
-        */
+
+        Map<Integer, Integer> M = new HashMap<>();
+
+        for (int iii = 0; iii < 5; iii++) {
+            M.put(iii, new Random().nextInt(100));
+        }
+
+        for (Map.Entry<Integer, Integer> e : M.entrySet()) {
+            System.out.println(e.getKey() + " " + e.getValue());
+
+        }
+
     }
 }
