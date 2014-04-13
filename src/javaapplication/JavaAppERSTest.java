@@ -9,10 +9,12 @@ import ERS.queries.ERSQuery;
 import ent.Raddan;
 import ent.Radnik;
 import ent.Statusi;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -22,31 +24,30 @@ import java.util.TreeMap;
  */
 public class JavaAppERSTest {
 
-    private static final Object lock = new Object();
-    private static final Calendar c = Calendar.getInstance();
-
-    private static class SBData {
-
+    //<editor-fold defaultstate="collapsed" desc="Klasa StackedBarCategoryWorkerData">
+    private static class StackedBarCategoryWorkerData {
+        public static final String MIN_SYSTEM_TIME = "07:00:00";
+        public static final String MAX_SYSTEM_TIME = "23:00:00";
+        public static final Statusi STATUS_ODSUSTVO = ERSQuery.statusPoID(14);
+        
         private final Radnik radnik;
         private final Statusi status;
+        private String nalog;
         private final String datum;
         private final String vremePocetka;
         private final String vremeKraja;
         private final Float trajanje;
 
-        private final int godina;
-        private final int mesec;
-        private final int dan;
-
         private final int satPocetak;
         private final int satKraj;
-        private final int minutPocetak;
-        private final int minutKraj;
+        private final float minutPocetak;
+        private final float minutKraj;
 
-        // najlakše je kada je 6, pošto svaki zarez predstavlja 10 minuta
-        private static int skaliranje = 6;
+        private Number vremePocetakDecimal;
+        private Number vremeKrajDecimal;
 
-        private final Calendar c = Calendar.getInstance();
+        private static final Calendar c = Calendar.getInstance();
+        private static final DecimalFormat df1 = new DecimalFormat("#.##");
 
         //<editor-fold defaultstate="collapsed" desc="konstruktor">
         /**
@@ -61,28 +62,31 @@ public class JavaAppERSTest {
          * timeline-u. npr. ako je broj zareza 6, znači da svaki zarez
          * predstavlja 10 minuta između dva susedna sata
          */
-        public SBData(Radnik radnik, Statusi status, String datum, String vremePocetka, String vremeKraja, Float trajanje, int skaliranje) {
+        public StackedBarCategoryWorkerData(Radnik radnik, Statusi status, String nalog, String datum, String vremePocetka, String vremeKraja, Float trajanje) {
             this.radnik = radnik;
             this.status = status;
+            this.nalog = nalog;
             this.datum = datum;
             this.vremePocetka = vremePocetka;
             this.vremeKraja = vremeKraja;
             this.trajanje = trajanje;
-            SBData.skaliranje = skaliranje;
 
-            c.setTime(toDate(datum + " " + vremePocetka));
-
-            godina = c.get(Calendar.YEAR);
-            mesec = 1 + c.get(Calendar.MONTH);
-            dan = c.get(Calendar.DAY_OF_MONTH);
-
+            c.setTime(toDate(vremePocetka));
             satPocetak = c.get(Calendar.HOUR_OF_DAY);
             minutPocetak = c.get(Calendar.MINUTE);
 
-            c.setTime(toDate(datum + " " + vremeKraja));
-
+            c.setTime(toDate(vremeKraja));
             satKraj = c.get(Calendar.HOUR_OF_DAY);
             minutKraj = c.get(Calendar.MINUTE);
+
+            vremePocetakDecimal = satPocetak + minutPocetak / 60;
+            vremeKrajDecimal = satKraj + minutKraj / 60;
+
+            try {
+                vremePocetakDecimal = df1.parse(df1.format(vremePocetakDecimal));
+                vremeKrajDecimal = df1.parse(df1.format(vremeKrajDecimal));
+            } catch (ParseException ex) {
+            }
         }
         //</editor-fold>
 
@@ -99,18 +103,6 @@ public class JavaAppERSTest {
             return trajanje;
         }
 
-        public int getGodina() {
-            return godina;
-        }
-
-        public int getMesec() {
-            return mesec;
-        }
-
-        public int getDan() {
-            return dan;
-        }
-
         public int getSatPocetak() {
             return satPocetak;
         }
@@ -119,44 +111,51 @@ public class JavaAppERSTest {
             return satKraj;
         }
 
-        public int getMinutPocetak() {
+        public float getMinutPocetak() {
             return minutPocetak;
         }
 
-        public int getMinutKraj() {
+        public float getMinutKraj() {
             return minutKraj;
         }
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="setters">
-        public static void setSkaliranje(int skaliranje) {
-            SBData.skaliranje = skaliranje;
+        public void setNalog(String nalog) {
+            this.nalog = nalog;
         }
         //</editor-fold>
 
+        //<editor-fold defaultstate="collapsed" desc="toDate">
         /**
          *
-         * @param timeDate npr. "2014-04-02 10:15:32"
+         * @param time npr. "2014-04-02 10:15:32"
          * @return
          */
-        private Date toDate(String timeDate) {
+        private Date toDate(String time) {
             try {
-                return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(timeDate);
-            } catch (ParseException ex) {
-                return new Date(Long.MAX_VALUE);
+                return (new SimpleDateFormat("HH:mm:ss")).parse(time);
+            } catch (ParseException | NullPointerException ex) {
+                return new Date(toDate(MAX_SYSTEM_TIME).getTime());
             }
         }
+        //</editor-fold>
 
+        //<editor-fold defaultstate="collapsed" desc="toString">
         @Override
         public String toString() {
             return "[" + datum + "] "
                     + "[" + radnik.getImePrezime() + "] "
                     + "[" + status.getStatus() + "] "
+                    + (status.getUnosNaloga() ? "[" + this.nalog + "] " : "")
                     + "[" + this.vremePocetka + "] "
                     + "[" + this.vremeKraja + "] "
-                    + "[" + this.getTrajanje() + "] ";
+                    + "[" + this.getTrajanje() + "] "
+                    + "  >>>> [" + this.vremePocetakDecimal + "] <-> [" + this.vremeKrajDecimal + "]";
         }
+        //</editor-fold>
     }
+    //</editor-fold>
 
     /**
      *
@@ -164,25 +163,46 @@ public class JavaAppERSTest {
      * @param Datum
      * @return Map<Integer, SBData>
      */
-    private static Map<Integer, SBData> workerTimeLine(Radnik radnik, String datum) {
-        Map<Integer, SBData> TL = new TreeMap<>();
+    private static Map<Integer, StackedBarCategoryWorkerData> workerTimeLine(Radnik radnik, String datum) {
+        Map<Integer, StackedBarCategoryWorkerData> TL = new TreeMap<>();
+        StackedBarCategoryWorkerData SB;
+        List<Raddan> RD = ERSQuery.evidencijeRadnikaZaDatum(radnik, datum);
 
-        for (Raddan r1 : ERSQuery.evidencijeRadnikaZaDatum(radnik, datum)) {
-            TL.put(r1.getRbrstanja(),
-                    new SBData(r1.getFKIDRadnik(),
-                            r1.getFKIDStatus(),
-                            r1.getDatum(),
-                            r1.getPocStanja(),
-                            r1.getKrajStanja(),
-                            r1.getTrajanje(), 6)
+        if (!RD.isEmpty()) {
+            for (Raddan r1 : RD) {
+                SB = new StackedBarCategoryWorkerData(
+                        radnik,
+                        r1.getFKIDStatus(),
+                        r1.getNalog(),
+                        datum,
+                        r1.getPocStanja(),
+                        r1.getKrajStanja(),
+                        r1.getTrajanje()
+                );
+
+                TL.put(r1.getRbrstanja(), SB);
+            }
+
+        } else {
+            SB = new StackedBarCategoryWorkerData(
+                    radnik,
+                    StackedBarCategoryWorkerData.STATUS_ODSUSTVO,
+                    null,
+                    datum,
+                    StackedBarCategoryWorkerData.MIN_SYSTEM_TIME,
+                    StackedBarCategoryWorkerData.MAX_SYSTEM_TIME,
+                    16f
             );
+
+            TL.put(1, SB);
         }
 
         return TL;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         Radnik radnik = ERSQuery.radnikID(66);
+        String datum = "2014-4-29";
 
         //<editor-fold defaultstate="collapsed" desc="testovi">
         /*String pocetnoVreme, krajnjeVreme;
@@ -235,7 +255,25 @@ public class JavaAppERSTest {
          System.out.println("Trajanje: " + s.getTrajanje());
          */
         //</editor-fold>
-        for (Map.Entry<Integer, SBData> e : workerTimeLine(radnik, "2014-04-10").entrySet()) {
+        //<editor-fold defaultstate="collapsed" desc="test zaokruživanje.">
+        /*String v = "13:15:11";
+         Calendar c = Calendar.getInstance();
+         c.setTime(new SimpleDateFormat("HH:mm:ss").parse(v));
+         int sat = c.get(Calendar.HOUR_OF_DAY);
+         float minut = c.get(Calendar.MINUTE);
+         int sekund = c.get(Calendar.SECOND);
+        
+         // Zaokruživanje na 2 decomale !
+         float n = 110.91738f;
+         Number x = n;
+         DecimalFormat df = new DecimalFormat("#.##");
+         System.out.println("#1 : " + df.format(x.floatValue()));
+        
+         System.out.println("Ceo sat: " + v + ", sat: " + sat + ", minut: " + minut + ", sekund: " + sekund);
+         System.out.println("----------------");
+         System.out.println(df.format(sat + minut / 60));*/
+        //</editor-fold>
+        for (Map.Entry<Integer, StackedBarCategoryWorkerData> e : workerTimeLine(radnik, datum).entrySet()) {
             System.err.println(e.getKey() + ". " + e.getValue());
         }
     }
