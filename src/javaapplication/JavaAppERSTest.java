@@ -5,14 +5,10 @@
  */
 package javaapplication;
 
-import ERS.TimeLine.SBCWorkerTimeLine;
 import ERS.queries.ERSQuery;
-import static ERS.queries.ERSQuery.allWorkersTimeLine;
 import ent.Firma;
-import static ent.Raddan_.datum;
 import ent.Radnik;
 import java.text.ParseException;
-import java.util.Map;
 
 /**
  *
@@ -22,9 +18,10 @@ public class JavaAppERSTest {
 
     public static void main(String[] args) throws ParseException {
         Radnik radnik = ERSQuery.radnikID(66);
-        Firma aktivnaFirma = ERSQuery.FirmaID(2);
+        Firma Firma = ERSQuery.PODRAZUMEVANA_FIRMA;
+        String Datum = "2014-4-9";
 
-        String datum = "2014-4-9";
+        System.out.println("Podrazumevana Firma : " + Firma.toString());
         try {
             //<editor-fold defaultstate="collapsed" desc="testovi">
             /*
@@ -79,7 +76,6 @@ public class JavaAppERSTest {
              System.out.println("Trajanje: " + s.getTrajanje());
              */
             //</editor-fold>
-
             //<editor-fold defaultstate="collapsed" desc="test zaokruživanje.">
             /*
              String v = "13:15:11";
@@ -107,16 +103,19 @@ public class JavaAppERSTest {
              }
              */
             //</editor-fold>
-            for (Map<Integer, SBCWorkerTimeLine> e : allWorkersTimeLine(aktivnaFirma, datum)) {
-                for (Map.Entry<Integer, SBCWorkerTimeLine> entry : e.entrySet()) {
-                    Integer rbrAktivnosti = entry.getKey();
-                    SBCWorkerTimeLine sbwt = entry.getValue();
 
-                    System.out.println(rbrAktivnosti + sbwt.toString());
-                }
-
-                System.out.println("-------------------------");
-            }
+            /*
+             for (Map<Integer, SBCWorkerTimeLine> e : allWorkersTimeLine(podrazumevanaFirma, datum)) {
+             for (Map.Entry<Integer, SBCWorkerTimeLine> entry : e.entrySet()) {
+             Integer rBr = entry.getKey();
+             SBCWorkerTimeLine sbwt = entry.getValue();
+            
+             System.out.println("[" + rBr + "] " + sbwt.toString());
+             }
+            
+             System.out.println("-------------------------");
+             }
+             */
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
