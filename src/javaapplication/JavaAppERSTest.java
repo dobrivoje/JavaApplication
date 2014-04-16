@@ -8,19 +8,12 @@ package javaapplication;
 import ERS.TimeLine.Functionalities.Adapters.FirmaAdapter;
 import ERS.TimeLine.Functionalities.ITimeLineCategory;
 import ERS.TimeLine.Functionalities.Adapters.RadnikAdapter;
-import ERS.TimeLine.Functionalities.Adapters.SBCWorkerAdapter;
 import ERS.TimeLine.Functionalities.ITimeLineDuration;
 import ERS.TimeLine.Functionalities.ITimeLineObservableUnit;
-import ERS.TimeLine.SBCWorkerTimeLine;
 import ERS.queries.ERSQuery;
-import static ERS.queries.ERSQuery.radnikID;
-import static ERS.queries.ERSQuery.statusPoID;
-import static ERS.queries.ERSQuery.workerTimeLine;
 import ent.Firma;
 import java.text.ParseException;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  *
@@ -44,64 +37,18 @@ public class JavaAppERSTest {
          }
          */
         //Test
-        Map<ITimeLineCategory, Map<Integer, ITimeLineDuration>> ACE = new TreeMap<>();
+        for (Map.Entry<String, Map<Integer, ITimeLineDuration>> entry : ERSQuery.AllCategoresEvents(OU, Datum).entrySet()) {
+            String CAT = entry.getKey();
+            Map<Integer, ITimeLineDuration> DOGADJAJI = entry.getValue();
 
-        Map<Integer, ITimeLineDuration> evidencije = new HashMap<>();
-        SBCWorkerTimeLine dogadjaj = new SBCWorkerTimeLine(radnikID(66), statusPoID(1), Datum, "nalog x11", "11:00:00", "11:10:00", 10f);
-        ITimeLineDuration itld = new SBCWorkerAdapter(dogadjaj);
-        evidencije.put(0, itld);
+            System.out.println(CAT);
 
-        System.err.println("Test1 'evidencija.put' :");
-        System.err.println(evidencije);
+            for (Map.Entry<Integer, ITimeLineDuration> entry1 : DOGADJAJI.entrySet()) {
+                Integer I = entry1.getKey();
+                ITimeLineDuration D = entry1.getValue();
 
-        System.err.println("Test2 'ACE' :");
-        ITimeLineCategory CAT = new ITimeLineCategory() {
-
-            @Override
-            public String getCategory() {
-                return "Cat Test";
+                System.out.println(I + " -> " + D);
             }
-        };
-        try {
-            ACE.put(CAT, evidencije);
-        } catch (Exception e) {
-            System.err.println("greška !");
         }
-
-        Map<Integer, ITimeLineDuration> evidentiraniStatusi;
-        int ukPrisustvo = 0;
-
-        for (ITimeLineCategory ITLC : OU.getCategories()) {
-            RadnikAdapter RTL = (RadnikAdapter) ITLC;
-            evidentiraniStatusi = new TreeMap<>();
-
-            for (Map.Entry<Integer, SBCWorkerTimeLine> e : workerTimeLine(RTL.getRadnik(), Datum).entrySet()) {
-                Integer RBr = e.getKey();
-                SBCWorkerAdapter SBCWAdapter = new SBCWorkerAdapter(e.getValue());
-
-                ukPrisustvo += (SBCWAdapter.getDuration() != -1 && SBCWAdapter.getStatusID() != 15
-                        ? SBCWAdapter.getDuration() : 0);
-
-                evidentiraniStatusi.put(RBr, SBCWAdapter);
-            }
-
-            System.out.println(ITLC.getCategory());
-            System.out.println(evidentiraniStatusi.values());
-            System.err.println("Uk. prisustvo: " + ukPrisustvo);
-
-            ukPrisustvo = 0;
-
-            // ACE.put(RTL, evidentiraniStatusi);
-        }
-
-        /*
-         for (Map.Entry<ITimeLineCategory, Map<Integer, ITimeLineDuration>> entry : ACE.entrySet()) {
-         ITimeLineCategory CAT = entry.getKey();
-         Map<Integer, ITimeLineDuration> EvidDogadjaji = entry.getValue();
-        
-         System.err.println(CAT.getCategory());
-         System.err.println(EvidDogadjaji.toString());
-         }
-         */
     }
 }
