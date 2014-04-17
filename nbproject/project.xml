@@ -14,14 +14,6 @@
         </data>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/2">
             <reference>
-                <foreign-project>JavaLibraryCALENDAR</foreign-project>
-                <artifact-type>jar</artifact-type>
-                <script>${project.JavaLibraryCALENDAR}/build.xml</script>
-                <target>jar</target>
-                <clean-target>clean</clean-target>
-                <id>jar</id>
-            </reference>
-            <reference>
                 <foreign-project>JavaLibraryERS</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>${project.JavaLibraryERS}/build.xml</script>
@@ -33,6 +25,14 @@
                 <foreign-project>JavaLibraryINFSISTEM</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>${project.JavaLibraryINFSISTEM}/build.xml</script>
+                <target>jar</target>
+                <clean-target>clean</clean-target>
+                <id>jar</id>
+            </reference>
+            <reference>
+                <foreign-project>JavaLibraryUTILS</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>${project.JavaLibraryUTILS}/build.xml</script>
                 <target>jar</target>
                 <clean-target>clean</clean-target>
                 <id>jar</id>
