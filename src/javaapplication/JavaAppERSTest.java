@@ -12,6 +12,7 @@ import ERS.TimeLine.Functionalities.ITimeLineObservableUnit;
 import ERS.queries.ERSQuery;
 import java.text.ParseException;
 import java.util.Map;
+import org.dobrivoje.calendarutilities.DobriKalendar;
 
 /**
  *
@@ -20,8 +21,10 @@ import java.util.Map;
 public class JavaAppERSTest {
 
     public static void main(String[] args) throws ParseException {
-        String Datum = "2014-4-19";
+        String Datum = DobriKalendar.TODAY_DATE_STR;
         ITimeLineObservableUnit OU = new FirmaAdapter(ERSQuery.PODRAZUMEVANA_FIRMA, Datum);
+
+        System.err.println("*** " + DobriKalendar.TODAY_DATE_STR);
 
         //Test
         for (Map.Entry<ITimeLineCategory, Map<Integer, ITimeLineDuration>> kat : ERSQuery.AllCategoresEvents(OU, Datum).entrySet()) {

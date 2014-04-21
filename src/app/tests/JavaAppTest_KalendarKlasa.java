@@ -21,7 +21,7 @@ public class JavaAppTest_KalendarKlasa {
         k.setDatum(null);
 
         System.out.println(k.getGodina() + ", " + k.getMesec());
-        System.out.println(k.getPrethodnaGod() + ", " + k.getPrethodniMesec());
+        System.out.println(k.getPrethGod() + ", " + k.getPrethMesec());
         System.out.println("God. izmenjena ? " + k.isGodinaIzmenjena() + ", mesec izmenjen ? " + k.isMesecIzmenjen());
 
         k.setDatum("2014-1-19");
